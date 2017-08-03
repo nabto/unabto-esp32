@@ -1,4 +1,4 @@
-
+#include <string.h>
 #define UNABTO_PLATFORM_CUSTOM 1
 #define NABTO_SET_TIME_FROM_ALIVE 0
 #define NABTO_ENABLE_STREAM 0

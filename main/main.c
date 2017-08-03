@@ -109,10 +109,10 @@ void main_task(void *pvParameter)
 
 /**
  * Application event function for incomming Nabto req/res events
- */
 application_event_result application_event(application_request* request, unabto_query_request* read_buffer, unabto_query_response* write_buffer) {
     return AER_REQ_INV_QUERY_ID;
   }
+ */
 
 
 // Main application
