@@ -1,0 +1,4 @@
+[submodule "components/unabto"]
+	path = components/unabto
+	url = git@github.com:nabto/unabto.git
+	branch = 4.1
