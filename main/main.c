@@ -8,6 +8,8 @@
 #include "esp_event_loop.h"
 #include "esp_log.h"
 
+#include "demo_application.h"
+
 
 #include <unabto/unabto_common_main.h>
 #include <unabto/unabto_app.h>
@@ -96,6 +98,16 @@ void main_task(void *pvParameter)
   }
 
   unabto_init();
+
+
+  // Init demo application
+  demo_init();
+  demo_application_set_device_name("ESP32");
+  demo_application_set_device_product("ACME 9002 Heatpump");
+  demo_application_set_device_icon_("img/chip-small.png");
+
+
+
   while(true) {
     // Depending on the granuality of the freertos task switcher.. this is not very exact
     // But Nabto ticks doesn't need to be super exact

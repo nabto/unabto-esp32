@@ -1,7 +1,7 @@
 /**
  *  uNabto application logic implementation
  */
-
+#include "demo_application.h"
 #include <string.h>
 #include "unabto/unabto_app.h"
 #include <modules/fingerprint_acl/fp_acl_ae.h>
@@ -86,7 +86,7 @@ void demo_init() {
     updateLed();
 }
 
-void demo_application_set_device_name(char* name) {
+void demo_application_set_device_name(const char* name) {
     strncpy(device_name_, name, MAX_DEVICE_NAME_LENGTH);
 }
 
@@ -169,6 +169,8 @@ application_event_result application_event(application_request* request,
     // https://github.com/nabto/ionic-starter-nabto/blob/master/www/nabto/unabto_queries.xml
 
     application_event_result res;
+    res = AER_REQ_INV_QUERY_ID;
+
 
     switch (request->queryId) {
     case 10000:
