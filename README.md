@@ -47,14 +47,59 @@ make flash
 
 # How to test the application
 
-Using a serial terminal you should see a printout similar to the following every time the CC3200 starts up:
-
-```
-```
+Using the monitor command you should see a printout similar to the following every time the ESP32-EVB starts up:
 
 
 
+
 ```
-./echo_stream_tester <DEVICE ID> 1000000
+~/dev/unabto-esp32$ make monitor
+MONITOR
+--- idf_monitor on /dev/cu.wchusbserial1420 115200 ---
+
+[REMOVED DEFAULT ESP32 SETUP LOGGING]
+
+00:00:00:006 main.c(145) Nabto ESP32 demo starting up!!!
+I (232) system_api: Base MAC address is not set, read default base MAC address from BLK0 of EFUSE
+I (232) system_api: Base MAC address is not set, read default base MAC address from BLK0 of EFUSE
+I (292) phy: phy_version: 355.1, 59464c5, Jun 14 2017, 20:25:06, 0, 0
+00:00:00:099 main.c(172) Connecting to nabtotest1
+
+00:00:00:102 main.c(74) Main task: waiting for connection to the wifi network...
+I (2692) event: ip: 192.168.0.108, mask: 255.255.255.0, gw: 192.168.0.1
+00:00:02:496 main.c(76) connected!
+
+00:00:02:497 main.c(82) IP Address:  192.168.0.108
+00:00:02:500 main.c(83) Subnet mask: 255.255.255.0
+00:00:02:505 main.c(84) Gateway:     192.168.0.1
+00:00:02:509 unabto_common_main.c(121) Device id: 'uqhtktt3.smtth.appmyproduct.com'
+00:00:02:516 unabto_common_main.c(122) Program Release 4.1.1
+00:00:02:523 unabto_app_adapter.c(690) Application event framework using SYNC model
+00:00:02:529 unabto_context.c(55) SECURE ATTACH: 1, DATA: 1
+00:00:02:534 unabto_context.c(63) NONCE_SIZE: 32, CLEAR_TEXT: 0
+00:00:02:541 unabto_common_main.c(200) Nabto was successfully initialized
+00:00:02:547 unabto_application.c(71) In demo_init
+00:00:02:551 unabto_application.c(92) Before fp_mem_init
+00:00:02:556 unabto_application.c(95) Before acl_ae_init
+00:00:02:565 unabto_context.c(55) SECURE ATTACH: 1, DATA: 1
+00:00:02:566 unabto_context.c(63) NONCE_SIZE: 32, CLEAR_TEXT: 0
+00:00:02:575 unabto_attach.c(804) State change from IDLE to WAIT_DNS
+00:00:02:578 unabto_attach.c(805) Resolving DNS for uqhtktt3.smtth.appmyproduct.com
+00:00:02:595 unabto_attach.c(818) DNS error (returned by application)
+00:00:02:596 unabto_attach.c(819) State change from WAIT_DNS to IDLE
+00:00:04:605 unabto_context.c(55) SECURE ATTACH: 1, DATA: 1
+00:00:04:606 unabto_context.c(63) NONCE_SIZE: 32, CLEAR_TEXT: 0
+00:00:04:609 unabto_attach.c(804) State change from IDLE to WAIT_DNS
+00:00:04:612 unabto_attach.c(805) Resolving DNS for uqhtktt3.smtth.appmyproduct.com
+00:00:04:625 unabto_attach.c(824) Resolved DNS for uqhtktt3.smtth.appmyproduct.com to:
+00:00:04:627 unabto_attach.c(830)   Controller ip: 52.31.229.62
+00:00:04:632 unabto_attach.c(836) State change from WAIT_DNS to WAIT_BS
+00:00:04:696 unabto_attach.c(487) State change from WAIT_BS to WAIT_GSP
+00:00:04:696 unabto_attach.c(488) GSP address: 54.72.234.97:5565
+00:00:04:705 unabto_attach.c(275) ########    U_INVITE with LARGE nonce sent, version: - URL: -
+00:00:04:761 unabto_attach.c(591) State change from WAIT_GSP to ATTACHED
 ```
+
+
+
 
