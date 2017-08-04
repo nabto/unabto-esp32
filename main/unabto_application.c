@@ -29,26 +29,24 @@ struct fp_mem_persistence fp_file_;
 #define REQUIRES_GUEST FP_ACL_PERMISSION_NONE
 #define REQUIRES_OWNER FP_ACL_PERMISSION_ADMIN
 
-#define LED0_PATH "/sys/class/leds/led0/"
 
 void updateLed() {
 
-#if 0
-    // Blink LED0 to reflect target temperature and heat pump state
-    // (Primary intended for Raspberry Pi)
-    if(heatpump_state_) {
-        unsigned int delay_off = 100 + (30 - heatpump_target_temperature_) * 50;
-        char delay_off_str[5];
-        sprintf(delay_off_str, "%u", delay_off);
-        writeFile(LED0_PATH "trigger", "timer");
-        writeFile(LED0_PATH "delay_on", "100");
-        writeFile(LED0_PATH "delay_off", delay_off_str);
-    } else {
-        writeFile(LED0_PATH "brightness", "0");
-    }
-#endif
 
 }
+
+fp_acl_db_status fp_acl_donothing_load(struct fp_mem_state* acl) {
+  return FP_ACL_DB_OK;
+}
+
+
+fp_acl_db_status fp_acl_donothing_save(struct fp_mem_state* acl)
+{
+  return FP_ACL_DB_OK;
+}
+
+
+
 
 void debug_dump_acl() {
     void* it = db_.first();
@@ -68,22 +66,37 @@ void debug_dump_acl() {
 }
 
 void demo_init() {
-    struct fp_acl_settings default_settings;
-    default_settings.systemPermissions =
-        FP_ACL_SYSTEM_PERMISSION_PAIRING |
-        FP_ACL_SYSTEM_PERMISSION_LOCAL_ACCESS;
-    default_settings.defaultUserPermissions =
-        FP_ACL_PERMISSION_LOCAL_ACCESS;
-    default_settings.firstUserPermissions =
-        FP_ACL_PERMISSION_ADMIN |
-        FP_ACL_PERMISSION_LOCAL_ACCESS |
-        FP_ACL_PERMISSION_REMOTE_ACCESS;
 
 
-    fp_mem_init(&db_, &default_settings, &fp_file_);
-    fp_acl_ae_init(&db_);
-    snprintf(device_name_, sizeof(device_name_), DEVICE_NAME_DEFAULT);
-    updateLed();
+  NABTO_LOG_INFO(("In demo_init"));
+
+  struct fp_acl_settings default_settings;
+
+  default_settings.systemPermissions =
+    FP_ACL_SYSTEM_PERMISSION_PAIRING |
+    FP_ACL_SYSTEM_PERMISSION_LOCAL_ACCESS |
+    FP_ACL_PERMISSION_REMOTE_ACCESS;
+  default_settings.defaultUserPermissions =
+    FP_ACL_PERMISSION_LOCAL_ACCESS|
+    FP_ACL_PERMISSION_REMOTE_ACCESS;
+  default_settings.firstUserPermissions =
+    FP_ACL_PERMISSION_ADMIN |
+    FP_ACL_PERMISSION_LOCAL_ACCESS |
+    FP_ACL_PERMISSION_REMOTE_ACCESS;
+
+
+  // Dont do any persistence - call empty load and save functions
+  fp_file_.load = &fp_acl_donothing_load;
+  fp_file_.save = &fp_acl_donothing_save;
+  
+  NABTO_LOG_INFO(("Before fp_mem_init"));
+  fp_mem_init(&db_, &default_settings, &fp_file_);
+
+  NABTO_LOG_INFO(("Before acl_ae_init"));
+  fp_acl_ae_init(&db_);
+
+  snprintf(device_name_, sizeof(device_name_), DEVICE_NAME_DEFAULT);
+  updateLed();
 }
 
 void demo_application_set_device_name(const char* name) {
@@ -169,27 +182,25 @@ application_event_result application_event(application_request* request,
     // https://github.com/nabto/ionic-starter-nabto/blob/master/www/nabto/unabto_queries.xml
 
     application_event_result res;
-    res = AER_REQ_INV_QUERY_ID;
-
 
     switch (request->queryId) {
     case 10000:
-        // get_public_device_info.json
-        if (!write_string(query_response, device_name_)) return AER_REQ_RSP_TOO_LARGE;
-        if (!write_string(query_response, device_product_)) return AER_REQ_RSP_TOO_LARGE;
-        if (!write_string(query_response, device_icon_)) return AER_REQ_RSP_TOO_LARGE;
-        if (!unabto_query_write_uint8(query_response, fp_acl_is_pair_allowed(request))) return AER_REQ_RSP_TOO_LARGE;
-        if (!unabto_query_write_uint8(query_response, fp_acl_is_user_paired(request))) return AER_REQ_RSP_TOO_LARGE; 
-        if (!unabto_query_write_uint8(query_response, fp_acl_is_user_owner(request))) return AER_REQ_RSP_TOO_LARGE;
-        return AER_REQ_RESPONSE_READY;
+      // get_public_device_info.json
+      if (!write_string(query_response, device_name_)) return AER_REQ_RSP_TOO_LARGE;
+      if (!write_string(query_response, device_product_)) return AER_REQ_RSP_TOO_LARGE;
+      if (!write_string(query_response, device_icon_)) return AER_REQ_RSP_TOO_LARGE;
+      if (!unabto_query_write_uint8(query_response, fp_acl_is_pair_allowed(request))) return AER_REQ_RSP_TOO_LARGE;
+      if (!unabto_query_write_uint8(query_response, fp_acl_is_user_paired(request))) return AER_REQ_RSP_TOO_LARGE; 
+      if (!unabto_query_write_uint8(query_response, fp_acl_is_user_owner(request))) return AER_REQ_RSP_TOO_LARGE;
+      return AER_REQ_RESPONSE_READY;
 
     case 10010:
-        // set_device_info.json
-        if (!fp_acl_is_request_allowed(request, REQUIRES_OWNER)) return AER_REQ_NO_ACCESS;
-        int res = copy_string(query_request, device_name_, sizeof(device_name_));
-        if (res != AER_REQ_RESPONSE_READY) return res;
-        if (!write_string(query_response, device_name_)) return AER_REQ_RSP_TOO_LARGE;
-        return AER_REQ_RESPONSE_READY;
+      // set_device_info.json
+      if (!fp_acl_is_request_allowed(request, REQUIRES_OWNER)) return AER_REQ_NO_ACCESS;
+      res = copy_string(query_request, device_name_, sizeof(device_name_));
+      if (res != AER_REQ_RESPONSE_READY) return res;
+      if (!write_string(query_response, device_name_)) return AER_REQ_RSP_TOO_LARGE;
+      return AER_REQ_RESPONSE_READY;
 
     case 11000:
         // get_users.json

@@ -69,18 +69,19 @@ void main_task(void *pvParameter)
   // device id and key from developer.nabto.com
   const char* nabtoId = NABTO_ID;
   const char* presharedKey = NABTO_KEY;
-
+  
   // wait for connection
-  printf("Main task: waiting for connection to the wifi network... ");
+  NABTO_LOG_INFO(("Main task: waiting for connection to the wifi network... "));
   xEventGroupWaitBits(wifi_event_group, CONNECTED_BIT, false, true, portMAX_DELAY);
-  printf("connected!\n");
+  NABTO_LOG_INFO(("connected!\n"));
   
   // print the local IP address
   tcpip_adapter_ip_info_t ip_info;
-  ESP_ERROR_CHECK(tcpip_adapter_get_ip_info(TCPIP_ADAPTER_IF_STA, &ip_info))
-  printf("IP Address:  %s\n", ip4addr_ntoa(&ip_info.ip));
-  printf("Subnet mask: %s\n", ip4addr_ntoa(&ip_info.netmask));
-  printf("Gateway:     %s\n", ip4addr_ntoa(&ip_info.gw));
+  ESP_ERROR_CHECK(tcpip_adapter_get_ip_info(TCPIP_ADAPTER_IF_STA, &ip_info));
+  
+  NABTO_LOG_INFO(("IP Address:  %s", ip4addr_ntoa(&ip_info.ip)));
+  NABTO_LOG_INFO(("Subnet mask: %s", ip4addr_ntoa(&ip_info.netmask)));
+  NABTO_LOG_INFO(("Gateway:     %s", ip4addr_ntoa(&ip_info.gw)));
 
   // Configure Nabto with the right configuration
   nabto_main_setup* nms = unabto_init_context();
@@ -101,7 +102,10 @@ void main_task(void *pvParameter)
 
 
   // Init demo application
+
+
   demo_init();
+  
   demo_application_set_device_name("ESP32");
   demo_application_set_device_product("ACME 9002 Heatpump");
   demo_application_set_device_icon_("img/chip-small.png");
@@ -131,14 +135,16 @@ application_event_result application_event(application_request* request, unabto_
 void app_main()
 {
 
-  printf("Nabto ESP32 demo starting up!!!");
-
+ 
   // disable the default wifi logging
   // esp_log_level_set("wifi", ESP_LOG_NONE);
   
   // disable stdout buffering
   setvbuf(stdout, NULL, _IONBF, 0);
-  
+ 
+ NABTO_LOG_INFO(("Nabto ESP32 demo starting up!!!"));
+
+ 
   // create the event group to handle wifi events
   wifi_event_group = xEventGroupCreate();
   
@@ -163,7 +169,7 @@ void app_main()
   };
   ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config));
   ESP_ERROR_CHECK(esp_wifi_start());
-  printf("Connecting to %s\n", WIFI_SSID);
+  NABTO_LOG_INFO(("Connecting to %s\n", WIFI_SSID));
   
   // start the main task
   xTaskCreate(&main_task, "main_task", 4096, NULL, 5, NULL);
