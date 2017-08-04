@@ -137,7 +137,7 @@ void app_main()
 
  
   // disable the default wifi logging
-  // esp_log_level_set("wifi", ESP_LOG_NONE);
+  esp_log_level_set("wifi", ESP_LOG_NONE);
   
   // disable stdout buffering
   setvbuf(stdout, NULL, _IONBF, 0);
