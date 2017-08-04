@@ -47,9 +47,11 @@ make flash
 
 # How to test the application
 
+
+
+## Monitor the output from the board
+
 Using the monitor command you should see a printout similar to the following every time the ESP32-EVB starts up:
-
-
 
 
 ```
@@ -100,6 +102,15 @@ I (2692) event: ip: 192.168.0.108, mask: 255.255.255.0, gw: 192.168.0.1
 00:00:04:761 unabto_attach.c(591) State change from WAIT_GSP to ATTACHED
 ```
 
+## Download the Heat control app
+
+Download the Android or iPhone app from app store
+https://www.appmyproduct.com/tutorial.html
 
 
+## Pair the Heat control app with the wifi module
+
+Follow the video in the tutorial:
+
+https://www.appmyproduct.com/tutorial.html
 
