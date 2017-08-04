@@ -6,7 +6,9 @@ This project turns the esp32-evb into a Nabto/AppMyProduct heatpump stub demo. I
 
 ## Step 1: Setup the ESP-IDF build environment
 
+Follow the setup of the ESP-IDF toolchain setup
 
+http://esp-idf.readthedocs.io/en/latest/get-started/index.html
 
 ## Step 2: Clone the repository
 
