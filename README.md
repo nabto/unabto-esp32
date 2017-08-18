@@ -1,6 +1,37 @@
-# uNabto esp32-evb heat stub demo
+# UNabto esp32-evb heat stub demo
 
-This project turns the esp32-evb into a Nabto/AppMyProduct heatpump stub demo. It uses the esp-idf FreeRTOS based core (vs. some other demos which uses the arduino core)
+This project turns the esp32-evb into a Nabto/AppMyProduct heatpump stub demo. It uses the esp-idf FreeRTOS based core (vs. some other demos which uses the arduino core).
+
+# The structure
+
+The structure of the project is as follows
+<pre>
+
+    +
+    +-->+-------------+
+    |   |    Main     |        This folder contains the initial setup
+    |   +-------------+        and the application_event() function defining
+    |                          the application
+    +-->+-------------+
+        |  Components |
+        +-------------+
+                      |
+                  +------->+-------------+
+                  |        | unabto|sdk  |    Don't edit here
+                  |        +-------------+
+                  |
+                  |
+                  +------->+-------------+
+                           | Platform    |    The integration is
+                           | Adapter     |    located here
+                           +-------------+
+</pre>
+
+
+ESP-IDF project has a speciel structure. You can read more about that here:
+https://esp-idf.readthedocs.io/en/v1.0/build_system.html
+The unabto source and the integration code is done as components and therefore resides in the IDF component folder.
+The unabto sdk is a submodule link to the unabto generic source.
 
 # How to set it up
 
