@@ -16,15 +16,15 @@ The structure of the project is as follows
         |  Components |
         +-------------+
                       |
-                  +------->+-------------+
-                  |        | unabto|sdk  |    Don't edit here
-                  |        +-------------+
-                  |
-                  |
-                  +------->+-------------+
-                           | Platform    |    The integration is
-                           | Adapter     |    located here
-                           +-------------+
+                      +------->+-------------+
+                      |        | unabto|sdk  |    Don't edit here
+                      |        +-------------+
+                      |
+                      |
+                      +------->+-------------+
+                               | Platform    |    The integration is
+                               | Adapter     |    located here
+                               +-------------+
 </pre>
 
 
@@ -32,6 +32,10 @@ ESP-IDF project has a speciel structure. You can read more about that here:
 https://esp-idf.readthedocs.io/en/v1.0/build_system.html
 The unabto source and the integration code is done as components and therefore resides in the IDF component folder.
 The unabto sdk is a submodule link to the unabto generic source.
+
+The initial setup/commisioning and the application is located in the main folder.
+unabto_application.c contains the application (inside the application_event function), the main.c contains the setup and configuration of the WiFi module.
+
 
 # How to set it up
 
