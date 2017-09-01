@@ -1,6 +1,6 @@
-# UNabto esp32-evb heat stub demo
+# uNabto ESP32 EVB Heatpump Stub 
 
-This project turns the esp32-evb into a Nabto/AppMyProduct heatpump stub demo. It uses the esp-idf FreeRTOS based core (vs. some other demos which uses the arduino core).
+This project turns the ESP32 EVB into a Nabto/AppMyProduct heatpump stub demo. It uses the esp-idf FreeRTOS based core (vs. some other demos which uses the arduino core).
 
 # The structure
 
