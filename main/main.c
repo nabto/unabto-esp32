@@ -7,6 +7,7 @@
 #include "esp_wifi.h"
 #include "esp_event_loop.h"
 #include "esp_log.h"
+#include "nvs_flash.h"
 
 #include "demo_application.h"
 
@@ -135,7 +136,8 @@ application_event_result application_event(application_request* request, unabto_
 void app_main()
 {
 
- 
+  nvs_flash_init();
+
   // disable the default wifi logging
   esp_log_level_set("wifi", ESP_LOG_NONE);
   
