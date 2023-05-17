@@ -1,3 +1,6 @@
+> **Warning**
+> Deprecation notice: This project is based on the now deprecated uNabto platform, hence this project is no longer actively maintained. The Nabto 4/Micro (uNabto) platform has been superseded by Nabto 5/Edge (see our [comparsion of the two platforms](https://docs.nabto.com/developer/guides/overview/edge-vs-micro.html)). An officially supported SDK for ESP32 is [available in github](https://github.com/nabto/edge-esp32). Also, see our [guide to using Nabto Edge with ESP32](https://docs.nabto.com/developer/platforms/embedded/esp32.html).
+
 # uNabto ESP32 EVB Heatpump Stub 
 
 This project turns the ESP32 EVB into a Nabto/AppMyProduct heatpump stub demo. It uses the esp-idf FreeRTOS based core (vs. some other demos which uses the arduino core).
